@@ -6,17 +6,16 @@ from .models import Profile
 # ================================
 # User Profile Update Form
 # ================================
-class ProfileUpdateForm(forms.ModelForm):
+from django import forms
+from user.models import Profile
+
+class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ['image']
+        fields = ['image']  # add more fields if needed, e.g., 'bio', 'phone', etc.
         widgets = {
-            'image': forms.ClearableFileInput(attrs={
-                'class': 'form-control',
-            }),
-        }
-        labels = {
-            'image': 'Profile Image',
+            'image': forms.ClearableFileInput(attrs={'class': 'form-control-file'}),
+            # Add widgets for other fields if added
         }
 
 # ================================

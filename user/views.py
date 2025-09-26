@@ -9,35 +9,31 @@ from blog.models import Blog, Category
 from home.models import Contact
 from django.db.models import Count
 from .models import Profile
+from blog.models import Blog, Category , SubCategory
 
-from .forms import ProfileUpdateForm, UserUpdateForm, CustomPasswordChangeForm
+from .forms import  UserUpdateForm, CustomPasswordChangeForm ,ProfileForm
 
 # ==========================
 # Profile Update View
 # ==========================
 @login_required
 def profile(request):
-    if request.method == 'POST':
-        user_form = UserUpdateForm(request.POST, instance=request.user)
-        profile_form = ProfileUpdateForm(
-            request.POST, request.FILES, instance=request.user.profile
-        )
-        if user_form.is_valid() and profile_form.is_valid():
-            user_form.save()
-            profile_form.save()
-            messages.success(request, 'Your profile has been updated successfully!')
-            return redirect('profile')
-        else:
-            messages.error(request, 'Please correct the errors below.')
-    else:
-        user_form = UserUpdateForm(instance=request.user)
-        profile_form = ProfileUpdateForm(instance=request.user.profile)
+    try:
+        profile = request.user.profile
+    except Profile.DoesNotExist:
+        messages.error(request, "You don't have a profile yet.")
+        return redirect('dashboard')  # or any page you prefer
 
-    context = {
-        'user_form': user_form,
-        'profile_form': profile_form
-    }
-    return render(request, 'user/profile.html', context)
+    if request.method == "POST":
+        form = ProfileForm(request.POST, request.FILES, instance=profile)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Profile updated successfully!")
+            return redirect('user:profile')
+    else:
+        form = ProfileForm(instance=profile)
+
+    return render(request, 'user/profile.html', {'form': form})
 
 # ==========================
 # Password Change View
@@ -59,6 +55,11 @@ def change_password(request):
 
     context = {'form': form}
     return render(request, 'user/change_password.html', context)
+
+
+# ==========================
+# Admin Dashboard View  
+# ==========================
 @login_required
 def admin_dashboard(request):
     categories = Category.objects.annotate(blog_count=Count('blog'))
@@ -76,7 +77,17 @@ def admin_dashboard(request):
         'blog_counts': blog_counts,
         # 'profile': profile,
     }
-    return render(request, "user/dashboard.html", context)  # ✅ inside user/
+    return render(request, "user/dashboard.html", context) 
+# ==========================
+# all blog views
+# ==========================
+def all_blogs(request):
+    blogs = Blog.objects.all().order_by('-created_at')
+
+    context = {
+        'blogs': blogs,
+    }
+    return render(request, 'user/blog_list.html', context)
 
 def user_login(request):
     if request.user.is_authenticated:

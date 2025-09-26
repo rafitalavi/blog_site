@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'blog',
     'home',
     'user',
+    'ckeditor',
 ]
 
 MIDDLEWARE = [
@@ -100,7 +101,14 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
+#  ckeditor settings
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'full',
+        'height': 300,
+        'width': '110%',
+    },
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/

@@ -26,8 +26,9 @@ class BlogForm(forms.ModelForm):
             'content': forms.Textarea(attrs={
                 'class': 'form-control', 
                 'placeholder': 'Write your blog content here...',
-                'rows': 8
+                'rows': 10
             }),
+         
             'author': forms.TextInput(attrs={
                 'class': 'form-control', 
                 'placeholder': 'Author name'

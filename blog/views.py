@@ -1,7 +1,8 @@
-from django.shortcuts import render , HttpResponse
+from django.shortcuts import render , HttpResponse , redirect
 from .models import Blog , Category, SubCategory
 from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
@@ -48,6 +49,40 @@ def blog_post(request, slug):
         'related_posts': related_posts,}
     return render(request, 'blog/blogpost.html', context)
 
+
+from .forms import BlogForm
+
+# Create a new blog
+@login_required
+def blog_create(request):
+    if request.method == 'POST':
+        form = BlogForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('user:all-blogs')
+    else:
+        form = BlogForm()
+    return render(request, 'blog/blog_form.html', {'form': form, 'title': 'Create Blog'})
+
+# Edit an existing blog
+@login_required
+def blog_edit(request, id):
+    blog = get_object_or_404(Blog, id=id)
+    if request.method == 'POST':
+        form = BlogForm(request.POST, request.FILES, instance=blog)
+        if form.is_valid():
+            form.save()
+            return redirect('user:all-blogs')
+    else:
+        form = BlogForm(instance=blog)
+    return render(request, 'blog/blog_form.html', {'form': form, 'title': 'Edit Blog'})
+# Delete a blog
+def blog_delete(request, id):
+    blog = get_object_or_404(Blog, id=id)
+    if request.method == 'POST':
+        blog.delete()
+        return redirect('user:all-blogs')  # redirect to the blog list after deletion
+    return render(request, 'blog/blog_confirm_delete.html', {'blog': blog})
 def search_blogs(request):
     query = request.GET.get('q')
     blogs = Blog.objects.filter(published=True)

@@ -3,7 +3,7 @@ from django.utils.text import slugify
 from django.utils.deconstruct import deconstructible
 import datetime
 import os
-
+from ckeditor.fields import RichTextField
 # ==========================
 # File path generators
 # ==========================
@@ -39,7 +39,7 @@ file_meta_image = GenerateMetaImageFilePath()
 class Blog(models.Model):
     title = models.CharField(max_length=200)
     slug = models.SlugField(unique=True, blank=True)
-    content = models.TextField()
+    content = RichTextField()
     author = models.CharField(max_length=100, default='Admin')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

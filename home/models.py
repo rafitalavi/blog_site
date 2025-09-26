@@ -3,7 +3,7 @@ from django.utils.deconstruct import deconstructible
 
 import os
 # Create your models here.
-@deconstructible
+
 @deconstructible
 class GenerateAttachmentFilePath:
     def __call__(self, instance, filename):
