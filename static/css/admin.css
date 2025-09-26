@@ -1,0 +1,21 @@
+#wrapper.toggled #sidebar-wrapper {
+    margin-left: -250px;
+    transition: margin 0.3s;
+}
+
+#sidebar-wrapper {
+    transition: margin 0.3s;
+}
+
+#page-content-wrapper {
+    width: 100%;
+}
+
+.list-group-item {
+    border: none;
+}
+
+.list-group-item:hover {
+    background-color: #0d6efd;
+    color: white;
+}

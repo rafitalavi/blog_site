@@ -1,0 +1,50 @@
+{% extends "index.html" %}
+{% load static %}
+
+{% block page_title %}Login{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6 col-lg-5">
+      <div class="card shadow-lg border-0 rounded-4">
+        <div class="card-body p-5">
+          <h3 class="text-center mb-4 fw-bold">Login to Your Account</h3>
+
+          <!-- Display messages -->
+          {% if messages %}
+            {% for message in messages %}
+              <div class="alert 
+                  {% if message.tags == 'success' %}alert-success
+                  {% elif message.tags == 'error' %}alert-danger
+                  {% else %}alert-info{% endif %} 
+                  alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+            {% endfor %}
+          {% endif %}
+
+          <form method="post" novalidate>
+            {% csrf_token %}
+            <div class="mb-3">
+              <label for="id_username" class="form-label">Username</label>
+              <input type="text" name="username" class="form-control" id="id_username" placeholder="Enter your username" required>
+            </div>
+            <div class="mb-3">
+              <label for="id_password" class="form-label">Password</label>
+              <input type="password" name="password" class="form-control" id="id_password" placeholder="Enter your password" required>
+            </div>
+            <div class="d-grid mb-3">
+              <button type="submit" class="btn btn-primary py-2 fw-semibold">Login</button>
+            </div>
+            <div class="text-center">
+              
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
