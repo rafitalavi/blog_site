@@ -1,0 +1,112 @@
+{% extends "index.html" %}
+{% load static %}
+{% block page_title %} {{ blog.title }} {% endblock %}
+
+{% block head %}
+  <!-- Open Graph / Facebook -->
+  <meta property="og:title" content="{{ blog.title }}">
+  <meta property="og:description" content="{{ blog.meta_description|default:blog.content|truncatechars:150 }}">
+
+  {% if blog.meta_image %}
+    <meta property="og:image" content="{{ blog.meta_image.url }}">
+  {% elif blog.image %}
+    <meta property="og:image" content="{{ blog.image.url }}">
+  {% endif %}
+
+  <meta property="og:url" content="{{ request.build_absolute_uri }}">
+  <meta property="og:type" content="article">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{ blog.title }}">
+  <meta name="twitter:description" content="{{ blog.meta_description|default:blog.content|truncatechars:150 }}">
+  
+  {% if blog.meta_image %}
+    <meta name="twitter:image" content="{{ blog.meta_image.url }}">
+  {% elif blog.image %}
+    <meta name="twitter:image" content="{{ blog.image.url }}">
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+
+  <!-- Blog Title -->
+  <h1 class="fw-bold mb-3">{{ blog.title }}</h1>
+  <p class="text-muted mb-4">
+    By {{ blog.author }} | {{ blog.created_at|date:"M d, Y" }}
+  </p>
+
+  <!-- Featured Image -->
+  {% if blog.image %}
+  <div class="mb-4 text-center">
+    <img src="{{ blog.image.url }}" class="img-fluid rounded-4 shadow-sm" 
+         alt="{{ blog.title }}" style="max-height:500px; width:100%; object-fit:contain;">
+  </div>
+  {% endif %}
+
+  <!-- Content -->
+  <div class="blog-content mb-5" style="line-height:1.8; font-size:1.1rem;">
+    {{ blog.content|safe }}
+  </div>
+
+  <!-- Meta Info -->
+  <div class="d-flex justify-content-between flex-wrap mb-4">
+    {% if blog.meta_keywords %}
+    <p class="mb-2"><strong>Keywords:</strong> {{ blog.meta_keywords }}</p>
+    {% endif %}
+    {% if blog.meta_description %}
+    <p class="mb-2"><strong>Description:</strong> {{ blog.meta_description }}</p>
+    {% endif %}
+  </div>
+
+  <!-- Social Share Buttons -->
+  <div class="my-4">
+    <h5>Share this post:</h5>
+    <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}" target="_blank" class="btn btn-primary me-2">
+      <i class="bi bi-facebook"></i> Facebook
+    </a>
+    <a href="https://twitter.com/intent/tweet?url={{ request.build_absolute_uri }}&text={{ blog.title }}" target="_blank" class="btn btn-info me-2 text-white">
+      <i class="bi bi-twitter"></i> Twitter
+    </a>
+    <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ request.build_absolute_uri }}&title={{ blog.title }}" target="_blank" class="btn btn-secondary me-2">
+      <i class="bi bi-linkedin"></i> LinkedIn
+    </a>
+    <a href="https://api.whatsapp.com/send?text={{ blog.title }}%20{{ request.build_absolute_uri }}" target="_blank" class="btn btn-success">
+      <i class="bi bi-whatsapp"></i> WhatsApp
+    </a>
+  </div>
+
+  <!-- Related Posts -->
+  {% if related_posts %}
+  <div class="my-5">
+    <h4 class="mb-4">Related Posts</h4>
+    <div class="row g-4">
+      {% for post in related_posts %}
+      <div class="col-12 col-md-6 col-lg-3">
+        <div class="card h-100 shadow-sm">
+          {% if post.image %}
+          <img src="{{ post.image.url }}" class="card-img-top img-fluid" 
+               style="height:180px; object-fit:cover;" alt="{{ post.title }}">
+          {% endif %}
+          <div class="card-body">
+            <h6 class="card-title">{{ post.title|truncatechars:50 }}</h6>
+            <p class="text-muted small mb-2">{{ post.created_at|date:"M d, Y" }}</p>
+            <a href="{% url 'blog:blog-post' post.slug %}" class="btn btn-sm btn-primary">Read More</a>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+
+  <!-- Back to Blog Button -->
+  <div class="mt-4">
+    <a href="{% url 'blog:blog-home' %}" class="btn btn-outline-primary">← Back to Blog</a>
+  </div>
+
+</div>
+{% endblock %}
+
+{% block blog-homeactive %} active {% endblock %}
