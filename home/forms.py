@@ -24,7 +24,7 @@ class WebsettingForm(forms.ModelForm):
         fields = [
             'title', 'email', 'phone', 'address', 'facebook', 'linkedin', 'instagram',
             'twitter', 'google_map', 'short_descriptions', 'meta_title', 'meta_description',
-            'meta_image', 'logo', 'fav_image', 'google_analytics_id'
+            'meta_image', 'logo', 'fav_image', 'google_analytics_id' ,'smtp_host', 'smtp_port' ,'smtp_user', 'smtp_password' ,'smtp_use_tls'
         ]
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-control'}),
@@ -47,4 +47,10 @@ class WebsettingForm(forms.ModelForm):
             'logo': forms.ClearableFileInput(attrs={'class': 'form-control'}),
             'fav_image': forms.ClearableFileInput(attrs={'class': 'form-control'}),
             'google_analytics_id': forms.TextInput(attrs={'class': 'form-control'}),
+            'smtp_host': forms.TextInput(attrs={'class': 'form-control'}),
+            'smtp_port': forms.NumberInput(attrs={'class': 'form-control'}),
+            'smtp_user': forms.TextInput(attrs={'class': 'form-control'}),
+            'smtp_password': forms.PasswordInput(attrs={'class': 'form-control'}),
+            'smtp_use_tls': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+
         }

@@ -1,32 +1,78 @@
-<div class="bg-dark text-white border-end" id="sidebar-wrapper" style="width: 250px; min-height: 100vh;">
+<!-- <div class="bg-dark text-white border-end" id="sidebar-wrapper" style="width: 250px; min-height: 100vh;">
     <div class="sidebar-heading text-center py-4 fs-4 fw-bold border-bottom">
         <i class="bi bi-speedometer2"></i> Admin
     </div>
     <div class="list-group list-group-flush mt-3">
         <a href="{% url 'user:dashboard' %}" class="list-group-item list-group-item-action bg-dark text-white">
-            <i class="bi bi-house-door-fill me-2"></i> Dashboard
+            <i class="bi bi-speedometer2 me-2"></i> Dashboard
         </a>
         <a href="{% url 'user:all-blogs' %}" class="list-group-item list-group-item-action bg-dark text-white">
-            <i class="bi bi-house-door-fill me-2"></i> Blogs
+            <i class="bi bi-journal-text me-2"></i> Blogs
         </a>
-         <a href="{% url 'user:all-categories' %}" class="list-group-item list-group-item-action bg-dark text-white">
-            <i class="bi bi-house-door-fill me-2"></i> Categories
+        <a href="{% url 'user:all-categories' %}" class="list-group-item list-group-item-action bg-dark text-white">
+            <i class="bi bi-tags me-2"></i> Categories
         </a>
-         <a href="{% url 'user:all-subcategories' %}" class="list-group-item list-group-item-action bg-dark text-white">
-            <i class="bi bi-house-door-fill me-2"></i> Subcategories
+        <a href="{% url 'user:all-subcategories' %}" class="list-group-item list-group-item-action bg-dark text-white">
+            <i class="bi bi-tag me-2"></i> Subcategories
         </a>
-          <a href="{% url 'user:all_contact_form' %}" class="list-group-item list-group-item-action bg-dark text-white">
-            <i class="bi bi-house-door-fill me-2"></i> Contact_form
+        <a href="{% url 'user:all_contact_form' %}" class="list-group-item list-group-item-action bg-dark text-white">
+            <i class="bi bi-envelope-fill me-2"></i> Contact Form
         </a>
-          <a href="{% url 'user:websetting_update'  %}" class="list-group-item list-group-item-action bg-dark text-white">
-            <i class="bi bi-house-door-fill me-2"></i> Settings
+        <a href="{% url 'user:websetting_update'  %}" class="list-group-item list-group-item-action bg-dark text-white">
+            <i class="bi bi-gear-fill me-2"></i> Settings
         </a>
         <a href="{% url 'user:profile' %}" class="list-group-item list-group-item-action bg-dark text-white">
-            <i class="bi bi-house-door-fill me-2"></i> Profile
+            <i class="bi bi-person-fill me-2"></i> Profile
         </a>
         <a href="{% url 'user:change-password' %}" class="list-group-item list-group-item-action bg-dark text-white">
-            <i class="bi bi-house-door-fill me-2"></i> Password Change
+            <i class="bi bi-key-fill me-2"></i> Password Change
         </a>
-     
+    </div>
+</div> -->
+
+<div class="bg-dark text-white border-end" id="sidebar-wrapper" style="width: 250px; min-height: 100vh;">
+    <div class="sidebar-heading text-center py-4 fs-4 fw-bold border-bottom">
+        <i class="bi bi-speedometer2"></i> Admin
+    </div>
+    <div class="list-group list-group-flush mt-3">
+        <a href="{% url 'user:dashboard' %}" 
+           class="list-group-item list-group-item-action bg-dark text-white {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">
+            <i class="bi bi-speedometer2 me-2"></i> Dashboard
+        </a>
+
+        <a href="{% url 'user:all-blogs' %}" 
+           class="list-group-item list-group-item-action bg-dark text-white {% if request.resolver_match.url_name == 'all-blogs' %}active{% endif %}">
+            <i class="bi bi-journal-text me-2"></i> Blogs
+        </a>
+
+        <a href="{% url 'user:all-categories' %}" 
+           class="list-group-item list-group-item-action bg-dark text-white {% if request.resolver_match.url_name == 'all-categories' %}active{% endif %}">
+            <i class="bi bi-tags me-2"></i> Categories
+        </a>
+
+        <a href="{% url 'user:all-subcategories' %}" 
+           class="list-group-item list-group-item-action bg-dark text-white {% if request.resolver_match.url_name == 'all-subcategories' %}active{% endif %}">
+            <i class="bi bi-tag me-2"></i> Subcategories
+        </a>
+
+        <a href="{% url 'user:all_contact_form' %}" 
+           class="list-group-item list-group-item-action bg-dark text-white {% if request.resolver_match.url_name == 'all_contact_form' %}active{% endif %}">
+            <i class="bi bi-envelope-fill me-2"></i> Contact Form
+        </a>
+
+        <a href="{% url 'user:websetting_update' %}" 
+           class="list-group-item list-group-item-action bg-dark text-white {% if request.resolver_match.url_name == 'websetting_update' %}active{% endif %}">
+            <i class="bi bi-gear-fill me-2"></i> Settings
+        </a>
+
+        <a href="{% url 'user:profile' %}" 
+           class="list-group-item list-group-item-action bg-dark text-white {% if request.resolver_match.url_name == 'profile' %}active{% endif %}">
+            <i class="bi bi-person-fill me-2"></i> Profile
+        </a>
+
+        <a href="{% url 'user:change-password' %}" 
+           class="list-group-item list-group-item-action bg-dark text-white {% if request.resolver_match.url_name == 'change-password' %}active{% endif %}">
+            <i class="bi bi-key-fill me-2"></i> Password Change
+        </a>
     </div>
 </div>

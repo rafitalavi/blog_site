@@ -58,6 +58,11 @@ class Websetting(models.Model):
     logo = models.ImageField(upload_to="logo/", blank=True, null=True)
     fav_image = models.ImageField(upload_to="favicon/", blank=True, null=True)
     google_analytics_id = models.CharField(max_length=50, blank=True, null=True)
+    smtp_host = models.CharField(max_length=100, blank=True, null=True)
+    smtp_port = models.PositiveIntegerField(blank=True, null=True)
+    smtp_user = models.CharField(max_length=100, blank=True, null=True)
+    smtp_password = models.CharField(max_length=100, blank=True, null=True)
+    smtp_use_tls = models.BooleanField(default=True)
 
     def __str__(self):
         return self.title
