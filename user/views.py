@@ -6,14 +6,15 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.models import User
 from blog.models import Blog, Category
-from home.models import Contact
+from home.models import Contact , Banner
 from django.db.models import Count
 from .models import Profile
 from blog.models import Blog, Category , SubCategory
 from home.models import Contact , Websetting
-from home.forms import WebsettingForm
+from home.forms import WebsettingForm , BannerForm
 from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404
+
 
 from .forms import  UserUpdateForm, CustomPasswordChangeForm ,ProfileForm
 
@@ -168,6 +169,12 @@ def websetting_update(request):
         form = WebsettingForm(instance=websetting)
 
     return render(request, "user/websetting_form.html", {"form": form})
+@login_required
+def all_banner(request):
+    banners = Banner.objects.all().order_by('-created_at')
 
-
+    context = {
+        'banners': banners,
+    }
+    return render(request, 'user/banner_list.html', context)
 

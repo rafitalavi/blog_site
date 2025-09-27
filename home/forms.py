@@ -1,5 +1,5 @@
 from django import forms
-from .models import Contact , Websetting
+from .models import Contact , Websetting , Banner
 
 class ContactForm(forms.ModelForm):
     class Meta:
@@ -53,4 +53,14 @@ class WebsettingForm(forms.ModelForm):
             'smtp_password': forms.PasswordInput(attrs={'class': 'form-control'}),
             'smtp_use_tls': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
 
+        }
+class BannerForm(forms.ModelForm):
+    class Meta:
+        model = Banner
+        fields = ['title', 'subtitle', 'image', 'active']
+        widgets = {
+            'title': forms.TextInput(attrs={'class': 'form-control'}),
+            'subtitle': forms.TextInput(attrs={'class': 'form-control'}),
+            'image': forms.ClearableFileInput(attrs={'class': 'form-control'}),
+            'active': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
         }

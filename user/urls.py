@@ -13,6 +13,8 @@ urlpatterns = [
     path('subcategories', views.all_subcategories , name='all-subcategories'),
     path('contact-froms', views.all_contact_form , name ='all_contact_form'),
     path('websetting/edit', views.websetting_update, name='websetting_update'),
+    path('banner', views.all_banner, name='all_banner'),
+
 
 ]
 

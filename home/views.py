@@ -5,9 +5,10 @@ from .models import Banner , Websetting
 from blog.models import Blog
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from .forms import ContactForm
+from .forms import ContactForm ,BannerForm
 from blog.models import  Blog
-
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404
 def home(request):
     banner = Banner.objects.all()
     blogs = Blog.objects.all()[:4]
@@ -90,7 +91,33 @@ def contact(request):
 
 # home/context_processors.py
 
-
+@login_required
+def banner_create(request):
+    if request.method == 'POST':
+        form = BannerForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('user:all_banner')
+    else:
+        form = BannerForm()
+    return render(request, 'home/banner_form.html', {'form': form, 'title': 'Create Banner'})
+@login_required
+def banner_edit(request, id):
+    banner = get_object_or_404(Banner, id=id)
+    if request.method == 'POST':
+        form = BannerForm(request.POST, request.FILES, instance=banner)
+        if form.is_valid():
+            form.save()
+            return redirect('user:all_banner')
+    else:
+        form = BannerForm(instance=banner)
+    return render(request, 'home/banner_form.html', {'form': form, 'title': 'Edit Banner'})
+@login_required
+def banner_delete(request, id):
+    banner = get_object_or_404(Banner, id=id)
+    if request.method == 'POST':
+        banner.delete()
+        return redirect('user:all_banner')  # redirect to the blog list after deletion
 
 def send_dynamic_email(subject, message, recipient_list):
     websetting = Websetting.objects.first()  # get your settings

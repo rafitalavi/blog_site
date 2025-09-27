@@ -6,7 +6,7 @@
     <h2 class="mb-4">Blog List</h2>
 
     <!-- Create Button -->
-    <a href="{% url 'blog:category-create' %}" class="btn btn-success mb-3">Create New Blog</a>
+    <a href="{% url 'banner-create' %}" class="btn btn-success mb-3">Create New Blog</a>
 
     <table class="table table-bordered table-striped">
         <thead class="table-dark">
@@ -19,18 +19,18 @@
             </tr>
         </thead>
         <tbody>
-            {% for c in categories %}
+            {% for c in banners %}
             <tr>
                 <td>{{ c.id }}</td>
-                <td>{{ c.name }}</td>
+                <td>{{ c.title }}</td>
                 
                 <td>{{ c.created_at|date:"Y-m-d H:i" }}</td>
                 <td>
                     
                     <!-- Edit -->
-                    <a href="{% url 'blog:category-edit' c.id %}" class="btn btn-primary btn-sm">Edit</a>
+                    <a href="{% url 'banner-edit' c.id %}" class="btn btn-primary btn-sm">Edit</a>
                     <!-- Delete -->
-                    <form action="{% url 'blog:category-delete' c.id %}" method="post" class="d-inline">
+                    <form action="{% url 'banner-delete' c.id %}" method="post" class="d-inline">
                         {% csrf_token %}
                         <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?');">Delete</button>
                     </form>
