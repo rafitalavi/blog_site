@@ -4,55 +4,516 @@
 {% load static %}
 {% block content %}
 
-<h2 class="text-center my-4">Welcome to Our Page</h2>
+<!-- Banner Carousel Section -->
+<section class="banner-section py-5 bg-light">
+  <div class="container">
+    {% if banner %}
+    <div class="row justify-content-center mb-5">
+      <div class="col-lg-8 text-center">
+        <h2 class="display-5 fw-bold mb-3">Welcome to Our Creative Space</h2>
+        <p class="lead text-muted">Explore our latest projects and featured content</p>
+      </div>
+    </div>
+    
+    <div id="carouselExampleIndicators" class="carousel slide carousel-fade shadow-lg rounded-4 overflow-hidden" data-bs-ride="carousel">
+      <div class="carousel-indicators">
+        {% for b in banner %}
+          {% if b.active %}
+            <button type="button" data-bs-target="#carouselExampleIndicators" 
+                    data-bs-slide-to="{{ forloop.counter0 }}" 
+                    class="{% if forloop.first %}active{% endif %}" 
+                    aria-current="{% if forloop.first %}true{% endif %}" 
+                    aria-label="Slide {{ forloop.counter }}"></button>
+          {% endif %}
+        {% endfor %}
+      </div>
 
-{% if banner %}
-<div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
-  <div class="carousel-indicators">
-    {% for b in banner %}
-      {% if b.active %}
-        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="{{ forloop.counter0 }}" class="{% if forloop.first %}active{% endif %}" aria-current="{% if forloop.first %}true{% endif %}" aria-label="Slide {{ forloop.counter }}"></button>
-      {% endif %}
-    {% endfor %}
+      <div class="carousel-inner rounded-4">
+        {% for b in banner %}
+          {% if b.active %}
+          <div class="carousel-item {% if forloop.first %}active{% endif %}">
+            <div class="carousel-image-container">
+              <img src="{{ b.image.url }}" class="d-block w-100 carousel-img" alt="{{ b.title }}">
+              <div class="carousel-overlay"></div>
+            </div>
+            <div class="carousel-caption d-none d-md-block">
+              <div class="caption-content">
+                <h3 class="display-6 fw-bold text-white">{{ b.title }}</h3>
+                <p class="lead text-white">{{ b.subtitle }}</p>
+                <a href="#" class="btn btn-light btn-lg mt-3">Learn More</a>
+              </div>
+            </div>
+          </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+
+      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+    {% else %}
+    <div class="text-center py-5">
+      <div class="empty-state">
+        <i class="fas fa-images display-1 text-muted mb-3"></i>
+        <h3 class="text-muted">No Active Banners</h3>
+        <p class="text-muted">Check back later for featured content</p>
+      </div>
+    </div>
+    {% endif %}
   </div>
+</section>
 
-  <div class="carousel-inner">
-    {% for b in banner %}
-      {% if b.active %}
-      <div class="carousel-item {% if forloop.first %}active{% endif %}">
-        <img src="{{ b.image.url }}" class="d-block w-100" alt="{{ b.title }}">
-        <div class="carousel-caption d-none d-md-block">
-          <h5>{{ b.title }}</h5>
-          <p>{{ b.subtitle }}</p>
+<!-- Featured Blogs Section -->
+<section id="blogs" class="blogs-section py-5 bg-white">
+  <div class="container">
+    <div class="row justify-content-center mb-5">
+      <div class="col-lg-8 text-center">
+        <span class="badge bg-primary rounded-pill px-3 py-2 mb-3">Latest Posts</span>
+        <h2 class="display-5 fw-bold mb-3">From Our Blog</h2>
+        <p class="lead text-muted">Discover insights, stories, and expertise from our team</p>
+      </div>
+    </div>
+
+    {% if blogs %}
+    <div class="row g-4">
+      {% for blog in blogs %}
+        <div class="col-12 col-md-6 col-lg-4">
+          <div class="card h-100 shadow-sm border-0 rounded-4 overflow-hidden blog-card">
+            <div class="card-image-container position-relative">
+              {% if blog.image %}
+                <img src="{{ blog.image.url }}" class="card-img-top blog-image" alt="{{ blog.title }}">
+              {% else %}
+                <div class="card-img-placeholder bg-gradient-primary text-white d-flex align-items-center justify-content-center">
+                  <i class="fas fa-feather-alt fa-3x"></i>
+                </div>
+              {% endif %}
+              <div class="card-overlay"></div>
+              <div class="card-badge position-absolute top-0 end-0 m-3">
+                <span class="badge bg-light text-dark">{{ blog.created_at|date:"M d" }}</span>
+              </div>
+            </div>
+            
+            <div class="card-body d-flex flex-column p-4">
+              <div class="d-flex align-items-center mb-3">
+                <div class="author-avatar bg-primary rounded-circle me-2 d-flex align-items-center justify-content-center">
+                  <i class="fas fa-user text-white small"></i>
+                </div>
+                <small class="text-muted">By {{ blog.author }}</small>
+              </div>
+              
+              <h5 class="card-title fw-bold">{{ blog.title }}</h5>
+              <p class="card-text text-muted flex-grow-1">
+                {{ blog.content|striptags|truncatewords:25 }}
+              </p>
+              
+              <div class="d-flex justify-content-between align-items-center mt-3">
+                <a href="{% url 'blog:blog-post' blog.slug %}" class="btn btn-outline-primary btn-sm stretched-link">
+                  Read More <i class="fas fa-arrow-right ms-1 small"></i>
+                </a>
+                <small class="text-muted">{{ blog.created_at|timesince }} ago</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% empty %}
+        <div class="col-12 text-center py-5">
+          <div class="empty-state">
+            <i class="fas fa-blog display-1 text-muted mb-3"></i>
+            <h3 class="text-muted">No Blogs Available</h3>
+            <p class="text-muted">Check back later for new content</p>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+    
+    <!-- View All Button -->
+    <div class="text-center mt-5">
+      <a href="{% url 'blog:blog-home' %}" class="btn btn-primary btn-lg px-5">View All Posts</a>
+    </div>
+    {% else %}
+    <div class="text-center py-5">
+      <div class="empty-state">
+        <i class="fas fa-blog display-1 text-muted mb-3"></i>
+        <h3 class="text-muted">No Blogs Available</h3>
+        <p class="text-muted">Check back later for new content</p>
+      </div>
+    </div>
+    {% endif %}
+  </div>
+</section>
+
+<!-- Newsletter Section -->
+<section class="newsletter-section py-5 position-relative overflow-hidden">
+  <div class="container position-relative z-2">
+    <div class="row justify-content-center mb-4">
+      <div class="col-lg-8 text-center">
+        <span class="badge bg-primary rounded-pill px-3 py-2 mb-3">Contact Us</span>
+        <h2 class="display-5 fw-bold mb-3 text-white">Stay Updated</h2>
+        <p class="lead text-white">Subscribe to our newsletter for the latest updates and insights</p>
+      </div>
+    </div>
+    
+    <div class="row justify-content-between align-items-center">
+      <!-- Left Column: Form Content -->
+      <div class="col-lg-7">
+        <div class="newsletter-card bg-white rounded-4 shadow-lg p-4 p-md-5">
+          <form method="post" novalidate class="needs-validation">
+            {% csrf_token %}
+            
+            <div class="row g-3">
+              <!-- Name Field -->
+              <div class="col-12">
+                <div class="form-floating">
+                  {{ form.name }}
+                  <label for="{{ form.name.id_for_label }}" class="text-muted">
+                    <i class="bi bi-person me-2"></i>{{ form.name.label }}
+                  </label>
+                </div>
+              </div>
+
+              <!-- Email Field -->
+              <div class="col-12">
+                <div class="form-floating">
+                  {{ form.email }}
+                  <label for="{{ form.email.id_for_label }}" class="text-muted">
+                    <i class="bi bi-envelope me-2"></i>{{ form.email.label }}
+                  </label>
+                  {% if form.email.errors %}
+                  <div class="invalid-feedback d-block">
+                    {% for error in form.email.errors %}
+                      <i class="bi bi-exclamation-circle me-1"></i>{{ error }}
+                    {% endfor %}
+                  </div>
+                  {% endif %}
+                </div>
+              </div>
+
+              <!-- Phone Field -->
+              <div class="col-12">
+                <div class="form-floating">
+                  {{ form.phone }}
+                  <label for="{{ form.phone.id_for_label }}" class="text-muted">
+                    <i class="bi bi-telephone me-2"></i>{{ form.phone.label }}
+                  </label>
+                </div>
+              </div>
+
+              <!-- Message Field -->
+              <div class="col-12">
+                <div class="form-floating">
+                  {{ form.message }}
+                  <label for="{{ form.message.id_for_label }}" class="text-muted">
+                    <i class="bi bi-chat-text me-2"></i>{{ form.message.label }}
+                  </label>
+                </div>
+              </div>
+
+              <!-- Submit Button -->
+              <div class="col-12 mt-4">
+                <button type="submit" class="btn btn-primary btn-lg w-100 py-3 fw-semibold">
+                  <i class="bi bi-send me-2"></i> Send Message
+                </button>
+              </div>
+            </div>
+          </form>
+
+          <!-- Privacy Note -->
+          <div class="text-center mt-4">
+            <p class="small text-muted mb-0">
+              <i class="bi bi-shield-check me-1"></i>We respect your privacy. Your information will never be shared.
+            </p>
+          </div>
         </div>
       </div>
-      {% endif %}
-    {% endfor %}
+
+      <!-- Right Column: Headlines and Description -->
+      <div class="col-lg-4 text-center mt-5 mt-lg-0">
+        <div class="newsletter-content">
+          <div class="newsletter-icon bg-primary rounded-circle d-inline-flex align-items-center justify-content-center mb-4 mx-auto">
+            <i class="bi bi-envelope-check text-white fs-3"></i>
+          </div>
+          
+          <!-- Additional Benefits -->
+          <div class="benefits-list text-white text-start">
+            <div class="benefit-item d-flex align-items-center mb-3">
+              <i class="bi bi-check-circle-fill text-warning me-2 fs-5"></i>
+              <span>Exclusive content & insights</span>
+            </div>
+            <div class="benefit-item d-flex align-items-center mb-3">
+              <i class="bi bi-check-circle-fill text-warning me-2 fs-5"></i>
+              <span>Early access to new features</span>
+            </div>
+            <div class="benefit-item d-flex align-items-center mb-3">
+              <i class="bi bi-check-circle-fill text-warning me-2 fs-5"></i>
+              <span>Special offers & discounts</span>
+            </div>
+            <div class="benefit-item d-flex align-items-center">
+              <i class="bi bi-check-circle-fill text-warning me-2 fs-5"></i>
+              <span>No spam, unsubscribe anytime</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Previous</span>
-  </button>
-  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Next</span>
-  </button>
-</div>
-{% else %}
-<p class="text-center">No active banners to display.</p>
-{% endif %}
+  <!-- Background Elements -->
+  <div class="position-absolute top-0 start-0 w-100 h-100 bg-gradient-primary z-1"></div>
+  <div class="position-absolute bottom-0 end-0 z-1">
+    <div class="floating-element element-1"></div>
+  </div>
+  <div class="position-absolute top-0 start-0 z-1">
+    <div class="floating-element element-2"></div>
+  </div>
+</section>
+
+<style>
+  /* Banner Carousel Styles - FIXED */
+  .carousel-image-container {
+    position: relative;
+    height: 500px;
+    overflow: hidden;
+  }
+  
+  .carousel-img {
+    height: 100%;
+    object-fit: cover;
+    width: 100%;
+  }
+  
+  .carousel-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.7));
+  }
+  
+  .carousel-caption {
+    bottom: 20%;
+    text-align: left;
+  }
+  
+  .caption-content {
+    max-width: 600px;
+  }
+  
+  .carousel-indicators button {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin: 0 5px;
+  }
+  
+  /* Blog Card Styles */
+  .blog-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .blog-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.1) !important;
+  }
+  
+  .card-image-container {
+    height: 200px;
+    overflow: hidden;
+  }
+  
+  .blog-image {
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+    width: 100%;
+  }
+  
+  .blog-card:hover .blog-image {
+    transform: scale(1.05);
+  }
+  
+  .card-img-placeholder {
+    height: 200px;
+    font-size: 3rem;
+  }
+  
+  .card-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, transparent, rgba(0,0,0,0.1));
+  }
+  
+  .author-avatar {
+    width: 30px;
+    height: 30px;
+  }
+  
+  .bg-gradient-primary {
+    background: linear-gradient(135deg, #1e3a8a 0%, #7c3aed 100%);
+  }
+  
+  /* Empty State Styles */
+  .empty-state {
+    padding: 3rem 1rem;
+  }
+  
+  /* Newsletter Section */
+  .newsletter-section {
+    background: linear-gradient(135deg, #1e3a8a 0%, #7c3aed 100%);
+  }
+
+  .newsletter-card {
+    transform: translateY(0);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .newsletter-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15) !important;
+  }
+
+  .newsletter-icon {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, #1e3a8a 0%, #7c3aed 100%);
+  }
+
+  /* Form Styling */
+  .form-floating {
+    position: relative;
+    margin-bottom: 1rem;
+  }
+
+  .form-control {
+    border: 2px solid #e9ecef;
+    
+    
+    transition: all 0.3s ease;
+  }
+
+  .form-control:focus {
+    border-color: #1e3a8a;
+    box-shadow: 0 0 0 0.2rem rgba(30, 58, 138, 0.25);
+  }
+
+  textarea.form-control {
+    height: 120px !important;
+    resize: none;
+  }
+
+  /* Button Styling */
+  .btn-primary {
+    background: linear-gradient(135deg, #1e3a8a 0%, #7c3aed 100%);
+    border: none;
+    border-radius: 0.75rem;
+    transition: all 0.3s ease;
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(30, 58, 138, 0.3);
+  }
+
+  /* Floating Elements */
+  .floating-element {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.1;
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .element-1 {
+    width: 200px;
+    height: 200px;
+    background: #ffffff;
+    bottom: -50px;
+    right: -50px;
+    animation-delay: 0s;
+  }
+
+  .element-2 {
+    width: 150px;
+    height: 150px;
+    background: #ffd700;
+    top: -50px;
+    left: -50px;
+    animation-delay: 3s;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-20px) rotate(180deg); }
+  }
+
+  /* Responsive Adjustments */
+  @media (max-width: 768px) {
+    .carousel-image-container {
+      height: 300px;
+    }
+    
+    .carousel-caption {
+      bottom: 10%;
+    }
+    
+    .newsletter-card {
+      margin: 0 0.5rem;
+      padding: 2rem 1.5rem !important;
+    }
+  }
+</style>
 
 <script>
-$('.carousel').carousel({
-  interval: 2000
-})
+  // CORRECTED Carousel Initialization
+  document.addEventListener('DOMContentLoaded', function() {
+    // Carousel initialization - FIXED
+    const carouselElement = document.getElementById('carouselExampleIndicators');
+    if (carouselElement) {
+      const carousel = new bootstrap.Carousel(carouselElement, {
+        interval: 4000,
+        wrap: true,
+        pause: 'hover'
+      });
+    }
+
+    // Form validation
+    const forms = document.querySelectorAll('.needs-validation');
+    Array.from(forms).forEach(form => {
+      form.addEventListener('submit', event => {
+        if (!form.checkValidity()) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+      }, false);
+    });
+
+    // Smooth scrolling
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+  });
 </script>
 
-   
-<script>
-$('.carousel').carousel({
-  interval: 2000
-})
-</script>
+<!-- Bootstrap Icons -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+<!-- Font Awesome for Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
 {% endblock %}

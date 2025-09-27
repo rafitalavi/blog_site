@@ -1,113 +1,487 @@
+
+
 {% extends "index.html" %}
 {% load static %}
 {% block page_title %} Contact {% endblock %}
 {% block contactactive %} active {% endblock %}
 {% block content %}
-<div class="container my-5">
-  <!-- Heading -->
+
+<!-- Animated Background Elements -->
+<div class="background-animation">
+  <div class="shape shape-1"></div>
+  <div class="shape shape-2"></div>
+  <div class="shape shape-3"></div>
+  <div class="shape shape-4"></div>
+  <div class="shape shape-5"></div>
+</div>
+
+<div class="container my-5 position-relative">
+  <!-- Animated Heading -->
   <div class="text-center mb-5">
-    <h2 class="fw-bold display-6 text-dark">📬 Get in Touch</h2>
-    <p class="text-muted">
-      Have questions, feedback, or just want to say hi? Fill out the form below and we’ll respond as soon as possible.
+    <h2 class="fw-bold display-6 text-white animate-typing">📬 Get in Touch</h2>
+    <p class="text-light fs-5 animate-fade-in">
+      Have questions, feedback, or just want to say hi? Fill out the form below and we'll respond as soon as possible.
     </p>
   </div>
 
   <div class="row g-4">
     <!-- Contact Form -->
-    <div class="col-lg-7 ">
-      <div class="card shadow bg-light border-0 rounded-3">
-        <div class="card-body p-4 " style="background: rgb(189, 235, 217);">
-          <h4 class="card-title mb-4 text-dark">Send us a message</h4>
-            {% if messages %}
-    {% for message in messages %}
-      <div class="alert 
-          {% if message.tags == 'success' %}alert-success
-          {% elif message.tags == 'error' %}alert-danger
-          {% else %}alert-info{% endif %} 
-          alert-dismissible fade show" role="alert">
-        {{ message }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-      </div>
-    {% endfor %}
-  {% endif %}
+    <div class="col-lg-7">
+      <div class="card shadow border-0 rounded-3 h-100 animate-slide-in-left">
+        <div class="card-body p-4 p-md-5">
+          <h4 class="card-title mb-4 text-dark fw-bold">Send us a message</h4>
+          
+          {% if messages %}
+            {% for message in messages %}
+              <div class="alert 
+                  {% if message.tags == 'success' %}alert-success
+                  {% elif message.tags == 'error' %}alert-danger
+                  {% else %}alert-info{% endif %} 
+                  alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+            {% endfor %}
+          {% endif %}
+          
           <form method="post" novalidate>
             {% csrf_token %}
             
-            <div class="mb-3">
+            <div class="mb-3 form-group">
               {{ form.name.label_tag }}
               {{ form.name }}
             </div>
-               <div class="mb-3">
-        {{ form.email.label_tag }}
-        {{ form.email }}
-        {% if form.email.errors %}
-        <div class="text-danger small">
-            {% for error in form.email.errors %}
-                {{ error }}
-            {% endfor %}
-        </div>
-        {% endif %}
-    </div>
-            <div class="mb-3">
+            
+            <div class="mb-3 form-group">
+              {{ form.email.label_tag }}
+              {{ form.email }}
+              {% if form.email.errors %}
+                <div class="text-danger small mt-1">
+                  {% for error in form.email.errors %}
+                    {{ error }}
+                  {% endfor %}
+                </div>
+              {% endif %}
+            </div>
+            
+            <div class="mb-3 form-group">
               {{ form.phone.label_tag }}
               {{ form.phone }}
             </div>
-            <div class="mb-3">
+            
+            <div class="mb-3 form-group">
               {{ form.message.label_tag }}
               {{ form.message }}
             </div>
             
-            <button type="submit" class="btn btn-dark w-100 py-2 fw-semibold">
-              <i class="bi bi-send"></i> Send Message
+            <button type="submit" class="btn btn-gradient w-100 py-2 fw-semibold mt-3 animate-pulse">
+              <i class="bi bi-send me-2"></i> Send Message
             </button>
           </form>
         </div>
       </div>
     </div>
 
-    <!-- Contact Info -->
+    <!-- Contact Info & Map -->
     <div class="col-lg-5">
-  <div class="card shadow border-0 rounded-3 h-100" 
-       style="background: linear-gradient(135deg, #f8f9fa, #e9f2ff);">
-    <div class="card-body p-5 d-flex flex-column justify-content-center text-center">
-      
-      <h4 class="mb-4 fw-bold text-primary">Reach Us Directly</h4>
-      
-      <div class="mb-4">
-        <div class="d-flex align-items-center r mb-2">
-          <span class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3" 
-                style="width: 45px; height: 45px;">
-            <i class="bi bi-telephone-fill"></i>
-          </span>
-          <span class="fs-5 fw-semibold text-dark">+880 1234 567890</span>
+      <div class="card shadow border-0 rounded-3 h-100 animate-slide-in-right">
+        <div class="card-body p-0">
+          <!-- Google Map -->
+<div class="map-container" style="height: 250px; overflow: hidden; border-top-left-radius: 0.75rem; border-top-right-radius: 0.75rem;">
+  {% if websetting.google_map %}
+    {{ websetting.google_map|safe }}
+  {% else %}
+    <p class="text-center">Map not available</p>
+  {% endif %}
+</div>
+
+
+          
+          <!-- Contact Information -->
+          <div class="p-4 p-md-5 ">
+            <h4 class="mb-4 fw-bold text-white">Reach Us Directly</h4>
+            
+            <div class="d-flex align-items-center mb-4 contact-item">
+              <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3 flex-shrink-0 contact-icon" 
+                   style="width: 50px; height: 50px;">
+                <i class="bi bi-telephone-fill fs-5"></i>
+              </div>
+              <div>
+                <h6 class="mb-1 fw-semibold text-dark">Phone</h6>
+                <a href="tel:+8801234567890" class="text-decoration-none text-dark">{{ websetting.phone }}</a>
+              </div>
+            </div>
+            
+            <div class="d-flex align-items-center mb-4 contact-item">
+              <div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center me-3 flex-shrink-0 contact-icon" 
+                   style="width: 50px; height: 50px;">
+                <i class="bi bi-envelope-fill fs-5"></i>
+              </div>
+              <div>
+                <h6 class="mb-1 fw-semibold text-dark">Email</h6>
+                <a href="mailto:contact@myblog.com" class="text-decoration-none text-dark">{{ websetting.email }}</a>
+              </div>
+            </div>
+            
+            <div class="d-flex align-items-center contact-item">
+              <div class="bg-warning text-white rounded-circle d-flex align-items-center justify-content-center me-3 flex-shrink-0 contact-icon" 
+                   style="width: 50px; height: 50px;">
+                <i class="bi bi-geo-alt-fill fs-5"></i>
+              </div>
+           <div>
+  <h6 class="mb-1 fw-semibold text-dark">Address</h6>
+  {% if websetting.google_map %}
+    <a href="{{ websetting.google_map }}" target="_blank" class="text-decoration-none text-dark">
+      {{ websetting.address }}
+    </a>
+  {% else %}
+    <span class="text-dark">{{ websetting.address }}</span>
+  {% endif %}
+</div>
+
+            </div>
+          </div>
         </div>
       </div>
-      
-      <div class="mb-4">
-        <div class="d-flex align-items-center  mb-2">
-          <span class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center me-3" 
-                style="width: 45px; height: 45px;">
-            <i class="bi bi-envelope-fill"></i>
-          </span>
-          <span class="fs-5 fw-semibold text-dark">contact@myblog.com</span>
-        </div>
-      </div>
-      
-      <div>
-        <div class="d-flex  mb-2">
-          <span class="bg-danger text-white rounded-circle d-flex align-items-center justify-content-center me-3" 
-                style="width: 45px; height: 45px;">
-            <i class="bi bi-geo-alt-fill"></i>
-          </span>
-          <span class="fs-5 fw-semibold text-dark">Mohakhali, Dhaka, Bangladesh</span>
-        </div>
-      </div>
-      
     </div>
   </div>
 </div>
 
-  </div>
-</div>
-{% endblock %}
+<style>
+  /* Full page gradient background */
+  body {
+    background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+    background-size: 400% 400%;
+    animation: gradient 15s ease infinite;
+    min-height: 100vh;
+  }
+  
+  @keyframes gradient {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+  
+  /* Animated background shapes */
+  .background-animation {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    overflow: hidden;
+  }
+  
+  .shape {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.1;
+    animation: float 15s infinite linear;
+  }
+  
+  .shape-1 {
+    width: 200px;
+    height: 200px;
+    background: #ff6b6b;
+    top: 10%;
+    left: 5%;
+    animation-delay: 0s;
+  }
+  
+  .shape-2 {
+    width: 150px;
+    height: 150px;
+    background: #4ecdc4;
+    top: 60%;
+    left: 80%;
+    animation-delay: 2s;
+  }
+  
+  .shape-3 {
+    width: 100px;
+    height: 100px;
+    background: #ffe66d;
+    top: 20%;
+    left: 70%;
+    animation-delay: 4s;
+  }
+  
+  .shape-4 {
+    width: 180px;
+    height: 180px;
+    background: #ff8e53;
+    top: 70%;
+    left: 10%;
+    animation-delay: 6s;
+  }
+  
+  .shape-5 {
+    width: 120px;
+    height: 120px;
+    background: #667eea;
+    top: 40%;
+    left: 85%;
+    animation-delay: 8s;
+  }
+  
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0) rotate(0deg);
+    }
+    25% {
+      transform: translateY(-20px) rotate(90deg);
+    }
+    50% {
+      transform: translateY(0) rotate(180deg);
+    }
+    75% {
+      transform: translateY(20px) rotate(270deg);
+    }
+  }
+  
+  /* Colorful gradient backgrounds */
+  .btn-gradient {
+    background: linear-gradient(45deg, #FF6B6B, #FF8E53, #FFCA3A);
+    border: none;
+    color: white;
+    font-weight: 600;
+    transition: all 0.5s ease;
+    background-size: 200% auto;
+  }
+  
+  .btn-gradient:hover {
+    background-position: right center;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(255, 107, 107, 0.3);
+  }
+  
+  .bg-gradient-contact {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  }
+  
+  /* Form field styling with animations */
+  .card input, .card textarea {
+    border: 1px solid #dee2e6;
+    border-radius: 0.5rem;
+    padding: 0.75rem;
+    width: 100%;
+    transition: all 0.3s;
+    background-color: #f8f9fa;
+  }
+  
+  .card input:focus, .card textarea:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+    background-color: white;
+    transform: scale(1.02);
+  }
+  
+  .card label {
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    color: #495057;
+  }
+  
+  /* Map styling */
+  .map-container iframe {
+    border-top-left-radius: 0.75rem;
+    border-top-right-radius: 0.75rem;
+    transition: all 0.5s ease;
+  }
+  
+  .map-container:hover iframe {
+    transform: scale(1.02);
+  }
+  
+  /* Contact info cards hover effect */
+  .contact-item {
+    transition: all 0.3s ease;
+    padding: 10px;
+    border-radius: 10px;
+  }
+  
+  .contact-item:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: translateX(5px);
+  }
+  
+  .contact-icon {
+    transition: all 0.3s ease;
+  }
+  
+  .contact-item:hover .contact-icon {
+    transform: scale(1.1) rotate(5deg);
+  }
+  
+  /* Animations */
+  @keyframes typing {
+    from { width: 0 }
+    to { width: 100% }
+  }
+  
+  @keyframes blink-caret {
+    from, to { border-color: transparent }
+    50% { border-color: white }
+  }
+  
+  .animate-typing {
+    overflow: hidden;
+    border-right: .15em solid white;
+    white-space: nowrap;
+    margin: 0 auto;
+    animation: 
+      typing 3.5s steps(40, end),
+      blink-caret .75s step-end infinite;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  .animate-fade-in {
+    animation: fadeIn 2s ease-in;
+  }
+  
+  @keyframes slideInLeft {
+    from {
+      transform: translateX(-100px);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+  
+  .animate-slide-in-left {
+    animation: slideInLeft 1s ease-out;
+  }
+  
+  @keyframes slideInRight {
+    from {
+      transform: translateX(100px);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+  
+  .animate-slide-in-right {
+    animation: slideInRight 1s ease-out;
+  }
+  
+  @keyframes pulse {
+    0% {
+      transform: scale(1);
+      box-shadow: 0 0 0 0 rgba(255, 107, 107, 0.7);
+    }
+    70% {
+      transform: scale(1);
+      box-shadow: 0 0 0 10px rgba(255, 107, 107, 0);
+    }
+    100% {
+      transform: scale(1);
+      box-shadow: 0 0 0 0 rgba(255, 107, 107, 0);
+    }
+  }
+  
+  .animate-pulse {
+    animation: pulse 2s infinite;
+  }
+  
+  /* Form group animations */
+  .form-group {
+    position: relative;
+    transition: all 0.3s ease;
+  }
+  
+  .form-group:hover {
+    transform: translateY(-3px);
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .card-body {
+      padding: 1.5rem !important;
+    }
+    
+    .map-container {
+      height: 200px;
+    }
+    
+    .animate-typing {
+      white-space: normal;
+      border-right: none;
+      animation: none;
+    }
+    
+    .shape {
+      display: none; /* Hide shapes on mobile for better performance */
+    }
+  }
+</style>
 
+<script>
+  // Add some interactive animations on scroll
+  document.addEventListener('DOMContentLoaded', function() {
+    // Animate form elements on focus
+    const formInputs = document.querySelectorAll('input, textarea');
+    
+    formInputs.forEach(input => {
+      input.addEventListener('focus', function() {
+        this.parentElement.classList.add('focused');
+      });
+      
+      input.addEventListener('blur', function() {
+        if (this.value === '') {
+          this.parentElement.classList.remove('focused');
+        }
+      });
+    });
+    
+    // Add scroll animations for contact items
+    const contactItems = document.querySelectorAll('.contact-item');
+    
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = 1;
+          entry.target.style.transform = 'translateX(0)';
+        }
+      });
+    }, { threshold: 0.1 });
+    
+    contactItems.forEach(item => {
+      item.style.opacity = 0;
+      item.style.transform = 'translateX(20px)';
+      item.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+      observer.observe(item);
+    });
+    
+    // Mouse move effect for background shapes
+    document.addEventListener('mousemove', function(e) {
+      const shapes = document.querySelectorAll('.shape');
+      const mouseX = e.clientX / window.innerWidth;
+      const mouseY = e.clientY / window.innerHeight;
+      
+      shapes.forEach((shape, index) => {
+        const speed = (index + 1) * 0.5;
+        const x = (mouseX * speed * 20) - 10;
+        const y = (mouseY * speed * 20) - 10;
+        
+        shape.style.transform = `translate(${x}px, ${y}px)`;
+      });
+    });
+  });
+</script>
+{% endblock %}

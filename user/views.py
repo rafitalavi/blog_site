@@ -10,8 +10,10 @@ from home.models import Contact
 from django.db.models import Count
 from .models import Profile
 from blog.models import Blog, Category , SubCategory
-from home.models import Contact
+from home.models import Contact , Websetting
+from home.forms import WebsettingForm
 from django.core.paginator import Paginator
+from django.shortcuts import get_object_or_404
 
 from .forms import  UserUpdateForm, CustomPasswordChangeForm ,ProfileForm
 
@@ -150,3 +152,22 @@ def all_contact_form(request):
         'page_obj': page_obj
     }
     return render(request , 'user/contact_list.html' ,context)
+
+
+
+@login_required
+def websetting_update(request):
+    websetting, created = Websetting.objects.get_or_create(id=1)
+
+    if request.method == "POST":
+        form = WebsettingForm(request.POST, request.FILES, instance=websetting)
+        if form.is_valid():
+            form.save()
+            return redirect('user:websetting_update')  # stay on same page after save
+    else:
+        form = WebsettingForm(instance=websetting)
+
+    return render(request, "user/websetting_form.html", {"form": form})
+
+
+
