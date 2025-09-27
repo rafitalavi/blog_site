@@ -24,7 +24,7 @@ class WebsettingForm(forms.ModelForm):
         fields = [
             'title', 'email', 'phone', 'address', 'facebook', 'linkedin', 'instagram',
             'twitter', 'google_map', 'short_descriptions', 'meta_title', 'meta_description',
-            'meta_image', 'logo', 'fav_image', 'google_analytics_id' ,'smtp_host', 'smtp_port' ,'smtp_user', 'smtp_password' ,'smtp_use_tls'
+            'meta_image', 'logo', 'fav_image', 'google_analytics_id' ,'smtp_host', 'smtp_port' ,'smtp_user', 'smtp_password' ,'smtp_use_tls','smtp_use_ssl'
         ]
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-control'}),
@@ -52,6 +52,7 @@ class WebsettingForm(forms.ModelForm):
             'smtp_user': forms.TextInput(attrs={'class': 'form-control'}),
             'smtp_password': forms.PasswordInput(attrs={'class': 'form-control'}),
             'smtp_use_tls': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'smtp_use_ssl': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
 
         }
 class BannerForm(forms.ModelForm):

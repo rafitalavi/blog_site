@@ -122,25 +122,30 @@ def banner_delete(request, id):
 def send_dynamic_email(subject, message, recipient_list):
     websetting = Websetting.objects.first()  # get your settings
 
-    from django.core.mail import EmailMessage, get_connection
+    # Determine whether to use SSL or TLS
+    use_ssl = websetting.smtp_use_ssl
+    use_tls = websetting.smtp_use_tls
 
-    connection = get_connection(
-        host=websetting.smtp_host,
-        port=websetting.smtp_port,
-        username=websetting.smtp_user,
-        password=websetting.smtp_password,
-        use_tls=websetting.smtp_use_tls,
-    )
+    try:
+        connection = get_connection(
+            host=websetting.smtp_host,
+            port=websetting.smtp_port,
+            username=websetting.smtp_user,
+            password=websetting.smtp_password,
+            use_tls=use_tls,
+            use_ssl=use_ssl,
+            fail_silently=False
+        )
 
-    email = EmailMessage(
-        subject=subject,
-        body=message,
-        from_email=websetting.smtp_user,
-        to=recipient_list,
-        connection=connection
-    )
-    email.send()
+        email = EmailMessage(
+            subject=subject,
+            body=message,
+            from_email=websetting.smtp_user,
+            to=recipient_list,
+            connection=connection
+        )
+        email.send()
+        print("Email sent successfully")
 
-
-
-
+    except Exception as e:
+        print("Email failed:", e)
