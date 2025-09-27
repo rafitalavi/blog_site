@@ -4,34 +4,35 @@
 <head>
   <meta charset="UTF-8">
   <title>{% block page_title %}{% endblock %} - {{ websetting.title }}</title>
+{% block meta_tags %}
+  {% if blog %}
+    <meta name="title" content="{{ blog.meta_title|default:blog.title }}">
+    <meta name="description" content="{{ blog.meta_description|default:blog.content|truncatechars:160 }}">
+    <meta property="og:title" content="{{ blog.meta_title|default:blog.title }}">
+    <meta property="og:description" content="{{ blog.meta_description|default:blog.content|truncatechars:160 }}">
+    <meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{% if blog.meta_image %}{{ blog.meta_image.url }}{% elif blog.image %}{{ blog.image.url }}{% else %}{% static 'images/default_share_image.jpg' %}{% endif %}">
+    <meta property="og:url" content="{{ request.build_absolute_uri }}">
+    <meta property="og:type" content="article">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ blog.meta_title|default:blog.title }}">
+    <meta name="twitter:description" content="{{ blog.meta_description|default:blog.content|truncatechars:160 }}">
+    <meta name="twitter:image" content="{{ request.scheme }}://{{ request.get_host }}{% if blog.meta_image %}{{ blog.meta_image.url }}{% elif blog.image %}{{ blog.image.url }}{% else %}{% static 'images/default_share_image.jpg' %}{% endif %}">
+  {% else %}
+    <meta name="title" content="{{ websetting.meta_title|default:websetting.title }}">
+    <meta name="description" content="{{ websetting.meta_description|default:websetting.short_descriptions }}">
+    <meta property="og:title" content="{{ websetting.meta_title|default:websetting.title }}">
+    <meta property="og:description" content="{{ websetting.meta_description|default:websetting.short_descriptions }}">
+    <meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{% if websetting.meta_image %}{{ websetting.meta_image.url }}{% else %}{% static 'images/default_share_image.jpg' %}{% endif %}">
+    <meta property="og:url" content="{{ request.build_absolute_uri }}">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ websetting.meta_title|default:websetting.title }}">
+    <meta name="twitter:description" content="{{ websetting.meta_description|default:websetting.short_descriptions }}">
+    <meta name="twitter:image" content="{{ request.scheme }}://{{ request.get_host }}{% if websetting.meta_image %}{{ websetting.meta_image.url }}{% else %}{% static 'images/default_share_image.jpg' %}{% endif %}">
+  {% endif %}
+{% endblock %}
 
-  {% block meta_tags %}
-    {% if blog %}
-      <meta name="title" content="{{ blog.meta_title|default:blog.title }}">
-      <meta name="description" content="{{ blog.meta_description|default:blog.short_description }}">
-      <meta property="og:title" content="{{ blog.meta_title|default:blog.title }}">
-      <meta property="og:description" content="{{ blog.meta_description|default:blog.short_description }}">
-      <meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{{ blog.meta_image.url|default:static('images/default_share_image.jpg') }}">
-      <meta property="og:url" content="{{ request.build_absolute_uri }}">
-      <meta property="og:type" content="article">
-      <meta name="twitter:card" content="summary_large_image">
-      <meta name="twitter:title" content="{{ blog.meta_title|default:blog.title }}">
-      <meta name="twitter:description" content="{{ blog.meta_description|default:blog.short_description }}">
-      <meta name="twitter:image" content="{{ request.scheme }}://{{ request.get_host }}{{ blog.meta_image.url|default:static('images/default_share_image.jpg') }}">
-    {% else %}
-      <meta name="title" content="{{ websetting.meta_title|default:websetting.title }}">
-      <meta name="description" content="{{ websetting.meta_description|default:websetting.short_descriptions }}">
-      <meta property="og:title" content="{{ websetting.meta_title|default:websetting.title }}">
-      <meta property="og:description" content="{{ websetting.meta_description|default:websetting.short_descriptions }}">
-      <meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{{ websetting.meta_image.url|default:static('images/default_share_image.jpg') }}">
-      <meta property="og:url" content="{{ request.build_absolute_uri }}">
-      <meta property="og:type" content="website">
-      <meta name="twitter:card" content="summary_large_image">
-      <meta name="twitter:title" content="{{ websetting.meta_title|default:websetting.title }}">
-      <meta name="twitter:description" content="{{ websetting.meta_description|default:websetting.short_descriptions }}">
-      <meta name="twitter:image" content="{{ request.scheme }}://{{ request.get_host }}{{ websetting.meta_image.url|default:static('images/default_share_image.jpg') }}">
-    {% endif %}
-  {% endblock %}
+
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
