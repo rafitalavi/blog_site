@@ -1,5 +1,5 @@
 from django import forms
-from .models import Blog
+from .models import Blog , Category, SubCategory
 
 class BlogForm(forms.ModelForm):
     class Meta:
@@ -72,3 +72,53 @@ class BlogForm(forms.ModelForm):
         if meta_description and len(meta_description) > 160:
             raise forms.ValidationError("Meta description must be 160 characters or less.")
         return meta_description
+
+class CategoryForm(forms.ModelForm):
+    class Meta:
+        model = Category
+        fields = ['name', 'slug', 'description' ]
+        widgets = {
+            'name': forms.TextInput(attrs={
+                'class': 'form-control', 
+                'placeholder': 'Category Name'
+            }),
+            'slug': forms.TextInput(attrs={
+                'class': 'form-control', 
+                'placeholder': 'Category Slug'
+            }),
+            'description': forms.Textarea(attrs={
+                'class': 'form-control', 
+                'placeholder': 'Category Description',
+                'rows': 3
+            }),
+        }
+    def clean_name(self):
+        name = self.cleaned_data.get('name')
+        if Category.objects.filter(name__iexact=name).exists():
+            raise forms.ValidationError("Category with this name already exists.")
+        return name
+    
+
+class SubCategoryForm(forms.ModelForm):
+    class Meta:
+        model = SubCategory
+        fields = ['category', 'name', 'description']  # exclude slug, since it's auto-generated
+        widgets = {
+            'category': forms.Select(attrs={
+                'class': 'form-select',
+            }),
+            'name': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'SubCategory Name',
+            }),
+            'description': forms.Textarea(attrs={
+                'class': 'form-control',
+                'placeholder': 'SubCategory Description',
+                'rows': 3,
+            }),
+        }
+    def clean_name(self):
+        name = self.cleaned_data.get('name')
+        if Category.objects.filter(name__iexact=name).exists():
+            raise forms.ValidationError("Subcategory with this name already exists.")
+        return name

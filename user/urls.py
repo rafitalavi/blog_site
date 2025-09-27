@@ -9,5 +9,8 @@ urlpatterns = [
     path('change-password', views.change_password, name='change-password'),
     path('dashboard', views.admin_dashboard, name='dashboard'),
     path('blogs', views.all_blogs, name='all-blogs'),
+    path('categories', views.all_categories, name='all-categories'),
+    path('subcategories', views.all_subcategories , name='all-subcategories'),
+    path('contact-froms', views.all_contact_form , name ='all_contact_form'),
 ]
 

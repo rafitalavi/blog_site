@@ -10,6 +10,8 @@ from home.models import Contact
 from django.db.models import Count
 from .models import Profile
 from blog.models import Blog, Category , SubCategory
+from home.models import Contact
+from django.core.paginator import Paginator
 
 from .forms import  UserUpdateForm, CustomPasswordChangeForm ,ProfileForm
 
@@ -89,6 +91,30 @@ def all_blogs(request):
     }
     return render(request, 'user/blog_list.html', context)
 
+
+
+@login_required
+def all_categories(request):
+    categories = Category.objects.all().order_by('name')
+
+    context = {
+        'categories': categories,
+    }
+    return render(request, 'user/category_list.html', context)
+
+@login_required
+def all_subcategories(request):
+    subcategories = SubCategory.objects.all().order_by('name')
+    paginator = Paginator(subcategories, 12)  # 12 blogs per page
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    context ={
+        'subcategories': page_obj,
+        'page_obj': page_obj,
+    }
+    return render(request , 'user/subcategory_list.html' , context)
+
 def user_login(request):
     if request.user.is_authenticated:
         return redirect('user:dashboard')  # Redirect if already logged in
@@ -109,4 +135,18 @@ def user_login(request):
 def user_logout(request):
     logout(request)
     messages.success(request, "You have been logged out successfully.")
-    return redirect('login')
+    return redirect('user:login')
+
+@login_required
+def all_contact_form(request):
+    contacts = Contact.objects.all().order_by('-date')
+    paginator = Paginator(contacts, 12)  # 12 blogs per page
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    context ={
+        
+        'contacts': page_obj,
+        
+        'page_obj': page_obj
+    }
+    return render(request , 'user/contact_list.html' ,context)

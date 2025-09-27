@@ -3,7 +3,7 @@ from .models import Blog , Category, SubCategory
 from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
-
+from .forms import CategoryForm , SubCategoryForm
 
 # Create your views here.
 
@@ -76,7 +76,11 @@ def blog_edit(request, id):
     else:
         form = BlogForm(instance=blog)
     return render(request, 'blog/blog_form.html', {'form': form, 'title': 'Edit Blog'})
+
+
+
 # Delete a blog
+@login_required
 def blog_delete(request, id):
     blog = get_object_or_404(Blog, id=id)
     if request.method == 'POST':
@@ -99,3 +103,70 @@ def search_blogs(request):
         'query': query
     }
     return render(request, 'blog/bloghome.html', context)       
+
+
+
+@login_required
+def category_create(request):
+    if request.method == 'POST':
+        form = CategoryForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('user:all-categories')
+    else:
+        form = CategoryForm()
+    return render(request, 'blog/category_form.html', {'form': form, 'title': 'Create Category'})
+
+
+@login_required
+def category_edit(request, id):
+    category = get_object_or_404(Category, id=id)
+    if request.method == 'POST':
+        form = CategoryForm(request.POST, instance=category)
+        if form.is_valid():
+            form.save()
+            return redirect('user:all-categories')
+    else:
+        form = CategoryForm(instance=category)
+    return render(request, 'blog/category_form.html', {'form': form, 'title': 'Edit Category'})
+
+@login_required
+def category_delete(request , id):
+    category = get_object_or_404(Category, id=id)
+    if request.method == 'POST':
+        category.delete()
+        return redirect('user:all-categories')
+    
+
+
+#subcategories
+@login_required
+def subcategory_create(request):
+    if request.method == 'POST':
+        form = SubCategoryForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('user:all-subcategories')
+    else:
+        form = SubCategoryForm()
+    return render(request, 'blog/subcategory_form.html', {'form': form, 'title': 'Create Category'})
+
+
+@login_required
+def subcategory_edit(request, id):
+    subcategory = get_object_or_404(SubCategory, id=id)
+    if request.method == 'POST':
+        form = SubCategoryForm(request.POST, instance=subcategory)
+        if form.is_valid():
+            form.save()
+            return redirect('user:all-categories')
+    else:
+        form = SubCategoryForm(instance=subcategory)
+    return render(request, 'blog/subcategory_form.html', {'form': form, 'title': 'Edit Category'})
+
+@login_required
+def subcategory_delete(request , id):
+    category = get_object_or_404(SubCategory, id=id)
+    if request.method == 'POST':
+        category.delete()
+        return redirect('user:all-categories')

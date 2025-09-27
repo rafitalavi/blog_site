@@ -1,62 +1,209 @@
 {% extends "index.html" %}
 {% load static %}
-{% block title %} about {% endblock %}
+{% block page_title %} About {% endblock %}
 {% block aboutactive %} active {% endblock %}
 {% block content %}
-<section class="bg-gray-50 py-16">
-  <div class="max-w-5xl mx-auto px-6">
-    <!-- Heading -->
-    <h2 class="text-4xl font-bold text-center text-gray-800 mb-8">👋 About Us</h2>
-    <p class="text-center text-gray-600 max-w-2xl mx-auto mb-12">
-      Welcome to our blog! We’re passionate about sharing knowledge, ideas, and insights 
-      to inspire, educate, and connect with people around the world.  
-      Our mission is to create a space where technology, creativity, and community meet.
-    </p>
 
-    <!-- Team Section -->
-    <div class="grid md:grid-cols-3 gap-10">
-      <!-- Team member -->
-      <div class="bg-white rounded-2xl shadow-md p-6 text-center hover:shadow-xl transition">
-        <img src="{% static 'images/team1.jpg' %}" alt="Team member" 
-             class="w-28 h-28 mx-auto rounded-full mb-4 object-cover shadow-lg">
-        <h3 class="text-lg font-semibold text-gray-800">Rafit Alavi</h3>
-        <p class="text-sm text-gray-500 mb-3">Founder & Developer</p>
-        <p class="text-gray-600 text-sm">
-          Tech enthusiast with a passion for building smart applications and solving real-world problems.
-        </p>
-      </div>
-
-      <!-- Another member -->
-      <div class="bg-white rounded-2xl shadow-md p-6 text-center hover:shadow-xl transition">
-        <img src="{% static 'images/team2.jpg' %}" alt="Team member" 
-             class="w-28 h-28 mx-auto rounded-full mb-4 object-cover shadow-lg">
-        <h3 class="text-lg font-semibold text-gray-800">Nasrin Akther</h3>
-        <p class="text-sm text-gray-500 mb-3">Content Strategist</p>
-        <p class="text-gray-600 text-sm">
-          Loves writing, exploring ideas, and making complex topics simple for everyone.
-        </p>
-      </div>
-
-      <!-- Another member -->
-      <div class="bg-white rounded-2xl shadow-md p-6 text-center hover:shadow-xl transition">
-        <img src="{% static 'images/team3.jpg' %}" alt="Team member" 
-             class="w-28 h-28 mx-auto rounded-full mb-4 object-cover shadow-lg">
-        <h3 class="text-lg font-semibold text-gray-800">Tanvir Hasan</h3>
-        <p class="text-sm text-gray-500 mb-3">UI/UX Designer</p>
-        <p class="text-gray-600 text-sm">
-          Designing intuitive, engaging, and user-friendly digital experiences.
+<!-- Enhanced Hero Section -->
+<section class="position-relative bg-primary text-white py-5" style="background: linear-gradient(135deg, #1e3a8a 0%, #7c3aed 100%);">
+  <div class="position-absolute top-0 start-0 w-100 h-100 bg-dark opacity-40"></div>
+  <div class="container position-relative py-5 my-5">
+    <div class="row justify-content-center text-center">
+      <div class="col-lg-8">
+        <h1 class="display-3 fw-bold mb-4">About Us</h1>
+        <p class="lead fs-3 mb-0">
+          Crafting exceptional experiences with precision, creativity, and dedication to excellence.
         </p>
       </div>
     </div>
+  </div>
+  
+  <!-- Wave Divider -->
+  <div class="position-absolute bottom-0 start-0 w-100 overflow-hidden">
+    <svg viewBox="0 0 1200 120" preserveAspectRatio="none" class="w-100" style="height: 60px; fill: #ffffff;">
+      <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z"></path>
+    </svg>
+  </div>
+</section>
 
-    <!-- Mission / Vision -->
-    <div class="mt-16 text-center">
-      <h3 class="text-2xl font-bold text-gray-800 mb-4">🌟 Our Vision</h3>
-      <p class="text-gray-600 max-w-2xl mx-auto">
-        To become a leading hub of knowledge and creativity, empowering individuals to learn, 
-        grow, and make an impact in their communities and beyond.
-      </p>
+<!-- Main Content Section -->
+<section class="py-5 bg-light">
+  <div class="container py-5">
+    <div class="row align-items-center">
+      <!-- Text Content -->
+      <div class="col-lg-6 mb-5 mb-lg-0">
+        <div class="ps-lg-4">
+          <span class="badge bg-primary rounded-pill px-3 py-2 mb-3">Who We Are</span>
+          <h2 class="display-5 fw-bold text-dark mb-4">Excellence in Every Detail</h2>
+          <p class="fs-5 text-muted mb-4">
+            Focused on excellence for our clients, we are well established with a reputation for great service and a high-quality finish. Our team brings together diverse expertise to deliver outstanding results.
+          </p>
+          <p class="text-muted mb-4">
+            With our roots in high-end production, we work on a wide spectrum of projects with top international event organisers and designers. From luxury brand experiences to ambitious large-scale live events, our work is crafted with precision and creativity.
+          </p>
+          <p class="text-muted mb-5">
+            The magic happens at our HQ — a flexible creative space that's reconfigured for every project, offering the optimum work environment and plenty of room to build, test, and perfect ideas before they come to life.
+          </p>
+          
+          <!-- Stats -->
+          <div class="row text-center g-4 mt-4">
+            <div class="col-md-4">
+              <div class="p-3 bg-white rounded shadow-sm">
+                <h3 class="display-6 fw-bold text-primary mb-1">150+</h3>
+                <p class="text-muted mb-0">Projects Completed</p>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="p-3 bg-white rounded shadow-sm">
+                <h3 class="display-6 fw-bold text-primary mb-1">98%</h3>
+                <p class="text-muted mb-0">Client Satisfaction</p>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="p-3 bg-white rounded shadow-sm">
+                <h3 class="display-6 fw-bold text-primary mb-1">12</h3>
+                <p class="text-muted mb-0">Team Members</p>
+              </div>
+            </div>
+          </div>
+          
+          <!-- CTA Button -->
+          <div class="mt-5">
+            <a href="#" class="btn btn-primary btn-lg px-4 py-3 me-3">Our Portfolio</a>
+            <a href="#" class="btn btn-outline-primary btn-lg px-4 py-3">Contact Us</a>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Image with decorative elements -->
+      <div class="col-lg-6 position-relative">
+        <div class="position-relative z-3 rounded-4 overflow-hidden shadow-lg">
+          <img src="{% static 'images/about-hero.jpg' %}" 
+               alt="Our team working on a project" 
+               class="img-fluid w-100" 
+               style="height: 500px; object-fit: cover;">
+          <div class="position-absolute top-0 start-0 w-100 h-100 bg-primary opacity-10"></div>
+        </div>
+        
+        <!-- Floating Elements -->
+        <div class="position-absolute bottom-n3 end-n3 z-2">
+          <div class="bg-warning rounded-circle opacity-75" style="width: 100px; height: 100px;"></div>
+        </div>
+        <div class="position-absolute top-n3 start-n3 z-2">
+          <div class="bg-info rounded-circle opacity-50" style="width: 150px; height: 150px;"></div>
+        </div>
+        
+        <!-- Experience Badge -->
+        <div class="position-absolute bottom-0 start-0 m-4">
+          <div class="bg-dark text-white p-3 rounded-3 shadow">
+            <div class="d-flex align-items-center">
+              <div class="bg-white text-dark rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
+                <span class="fw-bold fs-5">10+</span>
+              </div>
+              <div>
+                <p class="mb-0 fw-bold">Years of</p>
+                <p class="mb-0">Experience</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
+
+<!-- Values Section -->
+<section class="py-5 bg-white">
+  <div class="container py-5">
+    <div class="row justify-content-center text-center mb-5">
+      <div class="col-lg-8">
+        <span class="badge bg-light text-primary rounded-pill px-3 py-2 mb-3">Our Values</span>
+        <h2 class="display-5 fw-bold text-dark mb-3">What Drives Us</h2>
+        <p class="lead text-muted">
+          The principles that guide our work and define who we are as a team.
+        </p>
+      </div>
+    </div>
+    
+    <div class="row g-4">
+      <!-- Value 1 -->
+      <div class="col-md-4">
+        <div class="card border-0 shadow-sm h-100 hover-shadow">
+          <div class="card-body p-4 text-center">
+            <div class="bg-primary bg-gradient rounded-circle d-inline-flex align-items-center justify-content-center mb-4" style="width: 80px; height: 80px;">
+              <i class="fas fa-award text-white fs-3"></i>
+            </div>
+            <h4 class="card-title fw-bold">Quality & Precision</h4>
+            <p class="card-text text-muted">
+              We never compromise on quality. Every detail is meticulously planned and executed to ensure the highest standards.
+            </p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Value 2 -->
+      <div class="col-md-4">
+        <div class="card border-0 shadow-sm h-100 hover-shadow">
+          <div class="card-body p-4 text-center">
+            <div class="bg-success bg-gradient rounded-circle d-inline-flex align-items-center justify-content-center mb-4" style="width: 80px; height: 80px;">
+              <i class="fas fa-lightbulb text-white fs-3"></i>
+            </div>
+            <h4 class="card-title fw-bold">Innovation</h4>
+            <p class="card-text text-muted">
+              We embrace new ideas and technologies, constantly pushing boundaries to create unique and memorable experiences.
+            </p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Value 3 -->
+      <div class="col-md-4">
+        <div class="card border-0 shadow-sm h-100 hover-shadow">
+          <div class="card-body p-4 text-center">
+            <div class="bg-warning bg-gradient rounded-circle d-inline-flex align-items-center justify-content-center mb-4" style="width: 80px; height: 80px;">
+              <i class="fas fa-users text-white fs-3"></i>
+            </div>
+            <h4 class="card-title fw-bold">Collaboration</h4>
+            <p class="card-text text-muted">
+              We believe in the power of teamwork. Our collaborative approach ensures we deliver the best possible results.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-5 bg-primary text-white">
+  <div class="container py-5">
+    <div class="row justify-content-center text-center">
+      <div class="col-lg-8">
+        <h2 class="display-5 fw-bold mb-4">Ready to Start Your Project?</h2>
+        <p class="lead mb-5">
+          Let's collaborate to bring your vision to life with our expertise and dedication to excellence.
+        </p>
+        <a href="#" class="btn btn-light btn-lg px-5 py-3 fw-bold">Get In Touch</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hover-shadow {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .hover-shadow:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1) !important;
+  }
+  
+  .bg-gradient {
+    background: linear-gradient(135deg, #1e3a8a 0%, #7c3aed 100%);
+  }
+</style>
+
+<!-- Font Awesome for Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
 {% endblock %}

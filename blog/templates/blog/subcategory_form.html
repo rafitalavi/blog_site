@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<div class="container mt-5">
+    <h2 class="mb-4 text-primary">{{ title }}</h2>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+           <div class="mb-3">
+            {{ form.category.label_tag }}
+            {{ form.category }}
+            {% if form.name.errors %}
+                <div class="text-danger">
+                    {{ form.name.errors }}
+                </div>
+            {% endif %}
+        </div>
+        <div class="mb-3">
+            {{ form.name.label_tag }}
+            {{ form.name }}
+            {% if form.name.errors %}
+                <div class="text-danger">
+                    {{ form.name.errors }}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="mb-3">
+            {{ form.slug.label_tag }}
+            {{ form.slug }}
+            {% if form.slug.errors %}
+                <div class="text-danger">
+                    {{ form.slug.errors }}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="mb-3">
+            {{ form.description.label_tag }}
+            {{ form.description }}
+            {% if form.description.errors %}
+                <div class="text-danger">
+                    {{ form.description.errors }}
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Submit Buttons -->
+        <div class="d-flex justify-content-end mb-5">
+            <a href="{% url 'user:all-categories' %}" class="btn btn-secondary me-2">Cancel</a>
+            <button type="submit" class="btn btn-primary btn-lg">{{ title }}</button>
+        </div>
+
+    </form>
+</div>
+
+
+{% endblock %}
