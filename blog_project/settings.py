@@ -111,6 +111,9 @@ CKEDITOR_CONFIGS = {
     },
 }
 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
