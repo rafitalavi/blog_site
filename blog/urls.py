@@ -1,7 +1,11 @@
 from django.contrib import admin
-from django.urls import path , include
+from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
 from . import views
+
 app_name = 'blog'
+
 urlpatterns = [
     path('', views.blog_home, name='blog-home'),
     path('post/<str:slug>', views.blog_post, name='blog-post'),
@@ -15,7 +19,8 @@ urlpatterns = [
     path('subcategories/create/', views.subcategory_create, name='subcategory-create'),
     path('subcategories/<int:id>/edit/', views.subcategory_edit , name ='subcategories-edit'),
     path('subcategory/<int:id>/delete/' , views.subcategory_delete , name= 'subcategories-delete')
-
-
-
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
