@@ -1,0 +1,28 @@
+#wrapper.toggled #sidebar-wrapper {
+    margin-left: -250px;
+    transition: margin 0.3s;
+}
+
+#sidebar-wrapper {
+    transition: margin 0.3s;
+}
+
+#page-content-wrapper {
+    width: 100%;
+}
+
+.list-group-item {
+    border: none;
+}
+
+.list-group-item:hover {
+    background-color: #0d6efd;
+    color: white;
+}
+.list-group-item.active {
+    background-color: #343a40 !important; /* dark background */
+    border-left: 4px solid #ffffff;       /* white left border */
+    color: #ffffff !important;            /* white text */
+    font-weight: 500;
+    transition: border-left 0.3s ease, background-color 0.3s ease;
+}

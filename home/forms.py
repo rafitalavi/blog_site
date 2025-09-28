@@ -18,13 +18,17 @@ class ContactForm(forms.ModelForm):
         return email
 
 
+from django import forms
+from .models import Websetting
+
 class WebsettingForm(forms.ModelForm):
     class Meta:
         model = Websetting
         fields = [
             'title', 'email', 'phone', 'address', 'facebook', 'linkedin', 'instagram',
             'twitter', 'google_map', 'short_descriptions', 'meta_title', 'meta_description',
-            'meta_image', 'logo', 'fav_image', 'google_analytics_id' ,'smtp_host', 'smtp_port' ,'smtp_user', 'smtp_password' ,'smtp_use_tls','smtp_use_ssl'
+            'meta_image', 'logo', 'fav_image', 'google_analytics_id', 'smtp_host',
+            'smtp_port', 'smtp_user', 'smtp_password', 'smtp_use_tls', 'smtp_use_ssl'
         ]
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-control'}),
@@ -35,11 +39,10 @@ class WebsettingForm(forms.ModelForm):
             'linkedin': forms.URLInput(attrs={'class': 'form-control'}),
             'instagram': forms.URLInput(attrs={'class': 'form-control'}),
             'twitter': forms.URLInput(attrs={'class': 'form-control'}),
-           'google_map': forms.Textarea(attrs={
-    'class': 'form-control',
-    'rows': 4,
-    'placeholder': 'Paste Google Maps iframe code here'
-}),
+            'google_map': forms.Textarea(attrs={
+                'class': 'form-control', 'rows': 4,
+                'placeholder': 'Paste Google Maps iframe code here'
+            }),
             'short_descriptions': forms.TextInput(attrs={'class': 'form-control'}),
             'meta_title': forms.TextInput(attrs={'class': 'form-control'}),
             'meta_description': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
@@ -50,11 +53,24 @@ class WebsettingForm(forms.ModelForm):
             'smtp_host': forms.TextInput(attrs={'class': 'form-control'}),
             'smtp_port': forms.NumberInput(attrs={'class': 'form-control'}),
             'smtp_user': forms.TextInput(attrs={'class': 'form-control'}),
-            'smtp_password': forms.PasswordInput(attrs={'class': 'form-control'}),
+            'smtp_password': forms.PasswordInput(attrs={'class': 'form-control'}, render_value=False),
             'smtp_use_tls': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
             'smtp_use_ssl': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
-
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # If the instance has a password, show masked placeholder
+        if self.instance and self.instance.smtp_password:
+            self.fields['smtp_password'].widget.attrs['placeholder'] = '********'
+
+    def clean_smtp_password(self):
+        password = self.cleaned_data.get("smtp_password")
+        if not password:  # Field left empty
+            return self.instance.smtp_password  # Keep old password
+        return password
+
+
 class BannerForm(forms.ModelForm):
     class Meta:
         model = Banner

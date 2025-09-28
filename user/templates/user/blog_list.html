@@ -15,6 +15,7 @@
                 <th>Title</th>
                 <th>Author</th>
                 <th>Created At</th>
+                <th>Active</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -23,8 +24,17 @@
             <tr>
                 <td>{{ blog.id }}</td>
                 <td>{{ blog.title }}</td>
-                <td>{{ blog.author.username }}</td>
+                
+                <td>{{ blog.author }}</td>
                 <td>{{ blog.created_at|date:"Y-m-d H:i" }}</td>
+                <!-- <td>{{ blog.published }}</td> -->
+                 <td>
+  <button 
+      class="btn btn-sm toggle-publish {% if blog.published %}btn-success{% else %}btn-danger{% endif %}" 
+      data-id="{{ blog.id }}">
+      {% if blog.published %} Published {% else %} Unpublished {% endif %}
+  </button>
+</td>
                 <td>
                     <!-- View -->
                     <a href="{% url 'blog:blog-post' blog.slug %}" class="btn btn-info btn-sm">View</a>
@@ -47,3 +57,28 @@
 </div>
 
 {% endblock %}
+<script>
+document.querySelectorAll('.toggle-publish').forEach(btn => {
+  btn.addEventListener('click', function() {
+    let blogId = this.dataset.id;
+    fetch(`/user/blog/toggle/${blogId}/`, {
+      method: "POST",
+      headers: {
+        "X-CSRFToken": "{{ csrf_token }}",
+      },
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (data.published) {
+        this.classList.remove("btn-danger");
+        this.classList.add("btn-success");
+        this.textContent = "Published";
+      } else {
+        this.classList.remove("btn-success");
+        this.classList.add("btn-danger");
+        this.textContent = "Unpublished";
+      }
+    });
+  });
+});
+</script>

@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .forms import ContactForm, BannerForm
-from .models import Banner, Websetting
+from .models import Banner, Websetting ,Contact
 from blog.models import Blog
 from django.core.mail import EmailMessage, get_connection
 
@@ -37,7 +37,7 @@ def send_dynamic_email(subject, message, recipient_list):
 
 def home(request):
     banner = Banner.objects.all()
-    blogs = Blog.objects.all()[:4]
+    blogs = Blog.objects.filter(published=True)[:4]
     websetting = Websetting.objects.first()
 
     form = ContactForm(request.POST or None)
@@ -130,3 +130,11 @@ def banner_delete(request, id):
         banner.delete()
         messages.success(request, "Banner deleted successfully.")
         return redirect('user:all_banner')
+
+@login_required
+def contact_delete(request, id):
+    contact = get_object_or_404(Contact, sno=id)
+    if request.method == 'POST':
+        contact.delete()
+        messages.success(request, "Contact deleted successfully.")
+        return redirect('user:all_contact_form')

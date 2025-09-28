@@ -16,6 +16,7 @@
                     <th>Phone</th>
                     <th>Message</th>
                     <th>Date</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -27,6 +28,10 @@
                     <td>{{ contact.phone }}</td>
                     <td>{{ contact.message }}</td>
                     <td>{{ contact.date }}</td>
+                    <td> <form action="{% url 'contact_delete' contact.sno %}" method="post" class="d-inline">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?');">Delete</button>
+                    </form></td>
                 </tr>
                 {% endfor %}
             </tbody>
