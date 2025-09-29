@@ -18,12 +18,20 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from django.contrib.sitemaps.views import sitemap  # ✅ add this
+from blog.sitemaps import BlogSitemap
+from home.sitemaps import StaticViewSitemap
+sitemaps = {
+    'blogs': BlogSitemap,
+    'static': StaticViewSitemap,
+}
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('blog/', include('blog.urls', namespace='blog')),
     path('', include('home.urls')),
     path('user/', include('user.urls')),
+    path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django-sitemap'),
 ]
 
 # Serve media files

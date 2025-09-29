@@ -4,6 +4,7 @@ from django.utils.deconstruct import deconstructible
 import datetime
 import os
 from ckeditor.fields import RichTextField
+from django.urls import reverse
 # ==========================
 # File path generators
 # ==========================
@@ -73,6 +74,8 @@ class Blog(models.Model):
     class Meta:
         ordering = ['-created_at']
         verbose_name_plural = "Blogs"
+    def get_absolute_url(self):
+        return reverse("blog:blog-post", args=[self.slug])
 
 
 class Category(models.Model):
